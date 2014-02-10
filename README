@@ -13,13 +13,27 @@ This package currently comprises the following submodules:
 
 ![Grouped bar chart](https://github.com/ValiValpas/pyplot-helper/raw/master/examples/barchart-grouped.png "Grouped bar chart")
 
+# Installation
+
+## Packages
+
+This module has been packaged as `python-pyplothelper-git` for the Archlinux User Repository (AUR).
+
+## From source
+
+```
+git clone http://github.com/ValiValpas/pyplot_helper
+cd pyplot_helper
+python setup.py install
+```
+
 # Usage
 
 See ./examples/
 
 # License
 
-This project is distributed under the ``MIT`` license (see ./LICENSE)
+This project is distributed under the `MIT` license (see ./LICENSE)
 
 # Dependencies
 
