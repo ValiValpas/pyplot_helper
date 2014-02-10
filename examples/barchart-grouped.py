@@ -24,7 +24,7 @@ chart.auto_add_categories()
 chart.add_category("cat2", "2nd category")
 
 fig, ax = pyplot.subplots(1, 1)
-#fig.subplots_adjust(bottom=0.15)
+fig.subplots_adjust(bottom=0.15)
 chart.plot(ax, stacked=False, sort=True)
 
 # output
