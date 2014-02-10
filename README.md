@@ -9,9 +9,9 @@ This package currently comprises the following submodules:
 
 # Examples
 
-![Stacked bar chart](https://github.com/ValiValpas/pyplot-helper/raw/master/examples/barchart-stacked.png "Stacked bar chart")
+![Stacked bar chart](https://github.com/ValiValpas/pyplot_helper/blob/master/examples/barchart-stacked.png "Stacked bar chart")
 
-![Grouped bar chart](https://github.com/ValiValpas/pyplot-helper/raw/master/examples/barchart-grouped.png "Grouped bar chart")
+![Grouped bar chart](https://github.com/ValiValpas/pyplot_helper/blob/master/examples/barchart-grouped.png "Grouped bar chart")
 
 # Installation
 
