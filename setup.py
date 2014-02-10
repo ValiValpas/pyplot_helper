@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(name='pyplot_helper',
         version='1.0',
-        description='A collection of scripts that facilitate the creation fancy plots with matplotlib.',
+        description='A collection of scripts that facilitate the creation of fancy plots with matplotlib.',
         author='Johannes Schlatow',
         url='https://github.com/ValiValpas/pyplot_helper',
         license="MIT",
