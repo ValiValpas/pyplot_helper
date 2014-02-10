@@ -1,0 +1,39 @@
+# About
+
+Provides an easy-to-use interface to matplotlib's pyplot in order to generate fancy plots.
+The color sets are taken from colorbrewer[1] vi brewer2mpl[2].
+
+This package currently comprises the following submodules: 
+
+  * barchart: Plot stacked or grouped (vertical) bar charts. 
+
+# Examples
+
+![Stacked bar chart](https://github.com/ValiValpas/pyplot-helper/raw/master/examples/barchart-stacked.png "Stacked bar chart")
+
+![Grouped bar chart](https://github.com/ValiValpas/pyplot-helper/raw/master/examples/barchart-grouped.png "Grouped bar chart")
+
+# Usage
+
+See ./examples/
+
+# License
+
+This project is distributed under the ``MIT`` license (see ./LICENSE)
+
+# Dependencies
+
+  * matplotlib[4]
+  * numpy[3]
+  * brewer2mpl[2]
+
+# Author(s)
+
+Johannes Schlatow
+
+# References
+
+[1]: http://colorbrewer2.org/
+[2]: https://pypi.python.org/pypi/brewer2mpl
+[3]: http://www.numpy.org/
+[4]: http://matplotlib.org/
