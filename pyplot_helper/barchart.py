@@ -38,26 +38,35 @@ import numpy as np
 import brewer2mpl
 
 class BarChart(object):
-    def __init__(self, title="Title", ylabel="Unknown", width=0.15, colorshift=0, rotation=70):
+    def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
+            xticksize=12):
         """
         Arguments
         ----------
         title -- The title of plot.
-        ylabel -- The label of th y-axis.
+        ylabel -- The label of the y-axis.
+        xlabel -- The label ot the x-axis
+        xticks -- Override ticks on the x-axis
+        noxticks -- Omit ticks on the x-axis
         width -- The (relative) width of the bars.
         colorshift -- Shift the color set. (default: 0)
         rotation -- Rotate the x-tick labels. (default: 70)
+        xticksize -- Font size of the x-ticks
         """
 
         self.groups = OrderedDict()
         self.categories = OrderedDict()
         self.bars = list()
         self.ylabel = ylabel
+        self.xlabel = xlabel
         self.title  = title
         self.width  = width
         self.colorshift = colorshift
         self.rotation = rotation
         self.errvalues = dict()
+        self.xticksize = xticksize
+        self.xticks = xticks
+        self.noxticks = noxticks
 
         # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
         # For more on ColorBrewer, see http://colorbrewer2.org/
@@ -122,9 +131,33 @@ class BarChart(object):
                 offset = offset + self.width
 
         axis.set_ylabel(self.ylabel)
+        if self.xlabel is not None:
+            axis.set_xlabel(self.xlabel)
         axis.set_title(self.title)
-        axis.set_xticks(ind+tick_offset)
-        axis.set_xticklabels(list(self.groups.keys()), rotation=self.rotation)
+
+        if self.xticks is not None:
+            labels = list()
+            minorticks = list()
+            majorticks = list([0+offset])
+            last = 0
+            for tick in self.xticks:
+                cur  = ind[tick['index']]+offset
+                majorticks.append(cur)
+                minorticks.append((last+cur)/2)
+                last = cur
+                labels.append(tick['label'])
+
+            axis.xaxis.set_tick_params(direction="out", top=False, labelbottom=False, size=20, width=2)
+            axis.set_xticks(majorticks)
+            axis.set_xticks(minorticks, minor=True)
+            axis.set_xticklabels(labels, rotation=self.rotation, fontsize=self.xticksize,
+                    horizontalalignment="center", minor=True)
+        elif self.noxticks:
+            axis.xaxis.set_tick_params(top=False, bottom=False, labelbottom=False)
+        else:
+            axis.set_xticks(ind+tick_offset)
+            axis.set_xticklabels(list(self.groups.keys()), rotation=self.rotation, fontsize=self.xticksize)
+
 
         if legend:
             self._add_legend()
