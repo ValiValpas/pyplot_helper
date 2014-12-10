@@ -39,7 +39,7 @@ import brewer2mpl
 
 class BarChart(object):
     def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
-            xticksize=12):
+            xticksize=12, legend_loc="upper right"):
         """
         Arguments
         ----------
@@ -52,6 +52,7 @@ class BarChart(object):
         colorshift -- Shift the color set. (default: 0)
         rotation -- Rotate the x-tick labels. (default: 70)
         xticksize -- Font size of the x-ticks
+        legend_loc -- Location of the legend
         """
 
         self.groups = OrderedDict()
@@ -67,6 +68,7 @@ class BarChart(object):
         self.xticksize = xticksize
         self.xticks = xticks
         self.noxticks = noxticks
+        self.legend_loc = legend_loc
 
         # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
         # For more on ColorBrewer, see http://colorbrewer2.org/
@@ -211,7 +213,7 @@ class BarChart(object):
         for cat in self.cat_list:
             revnames.append(self.categories[cat]['label'])
         revnames.reverse()
-        pyplot.legend( (revbars), (revnames) )
+        pyplot.legend( (revbars), (revnames), loc=self.legend_loc )
 
     def _normalize(self, groupname):
         for group in self.groups:
