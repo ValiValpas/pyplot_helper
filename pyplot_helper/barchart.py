@@ -69,6 +69,14 @@ class BarChart(object):
         self.xticks = xticks
         self.noxticks = noxticks
         self.legend_loc = legend_loc
+        if rotation == "vertical" or rotation == "horizontal":
+            self.xtickalign = "center"
+        elif rotation > 0 and rotation < 90:
+            self.xtickalign = "right"
+        elif rotation < 0 and rotation > -90:
+            self.xtickalign = "left"
+        else:
+            self.xtickalign = "center"
 
         # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
         # For more on ColorBrewer, see http://colorbrewer2.org/
@@ -153,12 +161,13 @@ class BarChart(object):
             axis.set_xticks(majorticks)
             axis.set_xticks(minorticks, minor=True)
             axis.set_xticklabels(labels, rotation=self.rotation, fontsize=self.xticksize,
-                    horizontalalignment="center", minor=True)
+                    horizontalalignment=self.xtickalign, minor=True)
         elif self.noxticks:
             axis.xaxis.set_tick_params(top=False, bottom=False, labelbottom=False)
         else:
             axis.set_xticks(ind+tick_offset)
-            axis.set_xticklabels(list(self.groups.keys()), rotation=self.rotation, fontsize=self.xticksize)
+            axis.set_xticklabels(list(self.groups.keys()), rotation=self.rotation,
+                    fontsize=self.xticksize, ha=self.xtickalign)
 
 
         if legend:
