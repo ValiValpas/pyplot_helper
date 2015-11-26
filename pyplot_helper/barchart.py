@@ -39,7 +39,8 @@ import brewer2mpl
 
 class BarChart(object):
     def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
-            xticksize=12, legend_loc="upper right", legendsize=None):
+            xticksize=12, legend_loc="upper right", legendsize=None, reverse_legend=False, legend_cols=1,
+            legend_anchor=None):
         """
         Arguments
         ----------
@@ -54,6 +55,9 @@ class BarChart(object):
         xticksize -- Font size of the x-ticks
         legend_loc -- Location of the legend
         legendsize -- Font size of the legend
+        reverse_legend -- Reverse order in the legend (default: False)
+        legend_cols -- Number of columns in the legend (default: 1)
+        legend_anchor -- Anchor (bbox_to_anchor) of the legend
         """
 
         self.groups = OrderedDict()
@@ -70,6 +74,9 @@ class BarChart(object):
         self.xticks = xticks
         self.noxticks = noxticks
         self.legend_loc = legend_loc
+        self.reverse_legend = reverse_legend
+        self.legend_cols = legend_cols
+        self.legend_anchor = legend_anchor
         if rotation == "vertical" or rotation == "horizontal":
             self.xtickalign = "center"
         elif rotation > 0 and rotation < 90:
@@ -86,7 +93,7 @@ class BarChart(object):
 
         # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
         # For more on ColorBrewer, see http://colorbrewer2.org/
-        self.colors = brewer2mpl.get_map('Paired', 'qualitative', 11).mpl_colors
+        self.colors = brewer2mpl.get_map('Paired', 'qualitative', 12).mpl_colors
 
     def plot(self, axis, legend=True, sort=False, stacked=False):
         """ Create bars on the given axis.
@@ -224,13 +231,16 @@ class BarChart(object):
 
     def _add_legend(self):
         revbars = list(self.bars)
-        revbars.reverse()
         revnames = list()
         for cat in self.cat_list:
             revnames.append(self.categories[cat]['label'])
-        revnames.reverse()
+
+        if self.reverse_legend:
+            revbars.reverse()
+            revnames.reverse()
+
         pyplot.legend( (revbars), (revnames), loc=self.legend_loc, fontsize=self.legendsize,
-                handlelength=1, labelspacing=0.2)
+                handlelength=1, labelspacing=0.2, ncol=self.legend_cols, bbox_to_anchor=self.legend_anchor)
 
     def _normalize(self, groupname):
         for group in self.groups:
