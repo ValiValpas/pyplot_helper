@@ -148,7 +148,7 @@ class BarChart(object):
 
         axis.set_ylabel(self.ylabel)
         if self.xlabel is not None:
-            axis.set_xlabel(self.xlabel)
+            axis.set_xlabel(self.xlabel, labelpad=20)
         axis.set_title(self.title)
 
         if self.xticks is not None:
@@ -175,6 +175,7 @@ class BarChart(object):
             axis.set_xticklabels(list(self.groups.keys()), rotation=self.rotation,
                     fontsize=self.xticksize, ha=self.xtickalign)
 
+        axis.tick_params(axis='both', pad=8)
 
         if legend:
             self._add_legend()
