@@ -35,7 +35,10 @@ from collections import OrderedDict
 import matplotlib.pyplot as pyplot
 
 import numpy as np
-import brewer2mpl
+
+# Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
+# For more on ColorBrewer, see http://colorbrewer2.org/
+from palettable.colorbrewer.qualitative import Paired_12 as mpl_colors
 
 class BarChart(object):
     def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
@@ -91,9 +94,7 @@ class BarChart(object):
         else:
             self.legendsize = xticksize
 
-        # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
-        # For more on ColorBrewer, see http://colorbrewer2.org/
-        self.colors = brewer2mpl.get_map('Paired', 'qualitative', 12).mpl_colors
+        self.colors = mpl_colors
 
     def plot(self, axis, legend=True, sort=False, stacked=False):
         """ Create bars on the given axis.

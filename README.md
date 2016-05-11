@@ -39,7 +39,7 @@ This project is distributed under the `MIT` license (see ./LICENSE)
 
   * [matplotlib][4]
   * [numpy][3]
-  * [brewer2mpl][2]
+  * [palettable][2]
 
 # Author(s)
 
@@ -48,11 +48,11 @@ Johannes Schlatow
 # References
 
   * [colorbrewer2.org][1]
-  * [brewer2mpl @ pyPI][2]
+  * [palettable][2]
   * [numpy.org][3]
   * [matplotlib.org][4]
 
 [1]: http://colorbrewer2.org/
-[2]: https://pypi.python.org/pypi/brewer2mpl
+[2]: https://jiffyclub.github.io/palettable/
 [3]: http://www.numpy.org/
 [4]: http://matplotlib.org/
