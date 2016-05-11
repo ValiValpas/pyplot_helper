@@ -38,7 +38,7 @@ import numpy as np
 
 # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
 # For more on ColorBrewer, see http://colorbrewer2.org/
-from palettable.colorbrewer.qualitative import Paired_12 as mpl_colors
+from palettable.colorbrewer.qualitative import Paired_12 as Colors
 
 class BarChart(object):
     def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
@@ -94,7 +94,7 @@ class BarChart(object):
         else:
             self.legendsize = xticksize
 
-        self.colors = mpl_colors
+        self.colors = Colors.mpl_colors
 
     def plot(self, axis, legend=True, sort=False, stacked=False):
         """ Create bars on the given axis.
