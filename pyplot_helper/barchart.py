@@ -39,11 +39,12 @@ import numpy as np
 # Get "11-class Paired" from ColorBrewer, a nice print-friendly color set.
 # For more on ColorBrewer, see http://colorbrewer2.org/
 from palettable.colorbrewer.qualitative import Paired_12 as Colors
+from palettable.colorbrewer.qualitative import Pastel1_9 as Colors2
 
 class BarChart(object):
     def __init__(self, title="Title", ylabel="Unknown", xlabel=None, xticks=None, noxticks=False, width=0.15, colorshift=0, rotation=70,
-            xticksize=12, legend_loc="upper right", legendsize=None, reverse_legend=False, legend_cols=1,
-            legend_anchor=None):
+            xticksize=12, legend_loc="upper right", legendsize=None, labelsize=18, reverse_legend=False, legend_cols=1,
+            legend_anchor=None, colors=Colors.mpl_colors, secondcolors=Colors2.mpl_colors):
         """
         Arguments
         ----------
@@ -80,6 +81,8 @@ class BarChart(object):
         self.reverse_legend = reverse_legend
         self.legend_cols = legend_cols
         self.legend_anchor = legend_anchor
+        self.labelsize = labelsize
+        self.secondcolors = secondcolors
         if rotation == "vertical" or rotation == "horizontal":
             self.xtickalign = "center"
         elif rotation > 0 and rotation < 90:
@@ -94,7 +97,7 @@ class BarChart(object):
         else:
             self.legendsize = xticksize
 
-        self.colors = Colors.mpl_colors
+        self.colors = colors
 
     def plot(self, axis, legend=True, sort=False, stacked=False):
         """ Create bars on the given axis.
@@ -114,8 +117,10 @@ class BarChart(object):
 
         # assign colors
         j = self.colorshift
+        N = len(self.groups)
         for name in self.cat_list:
             self.categories[name]["color"] = self.colors[j % num_colors]
+            self.categories[name]["bottom"] = np.zeros(N)
             j = j + 1
 
         N = len(self.groups)
@@ -132,31 +137,57 @@ class BarChart(object):
             tick_offset = self.width*M
 
         for name in self.cat_list:
-            cat_data = list()
-            for group in self.groups:
-                if name in self.groups[group]:
-                    cat_data.append(self.groups[group][name])
-                else:
-                    cat_data.append(0)
-
-            cat_err = None
-            if name in self.errvalues:
-                cat_err = list()
+            groupstacks = True
+            stacknum = 0
+            while groupstacks:
+                cat_data = list()
                 for group in self.groups:
-                    cat_err.append(self.errvalues[name][group])
+                    if name in self.groups[group]:
+                        data = self.groups[group][name]
+                        if isinstance(data, list):
+                            if len(data) > 0:
+                                groupstacks = True
+                                cat_data.append(data.pop())
+                        else:
+                            cat_data.append(data)
+                            groupstacks = False
+                    else:
+                        cat_data.append(0)
+                        groupstacks = False
 
-            self.bars.append(axis.bar(ind+offset, cat_data, self.width, bottom=bottom, color=self.categories[name]["color"], yerr=cat_err))
+                if len(cat_data) == 0:
+                    offset = offset + self.width
+                    groupstacks = False
+                    break
 
-            if stacked:
-                j = j + 1
-                for i in range(0, N):
-                    bottom[i] = bottom[i] + cat_data[i]
-            else:
-                offset = offset + self.width
+                cat_err = None
+                if stacknum == 0 and name in self.errvalues:
+                    cat_err = list()
+                    for group in self.groups:
+                        cat_err.append(self.errvalues[name][group])
 
-        axis.set_ylabel(self.ylabel)
+                colors = self.categories[name]["color"]
+                if not stacked:
+                    bottom = self.categories[name]['bottom']
+                    if stacknum > 0:
+                        colors = self.secondcolors[stacknum-1]
+
+                self.bars.append(axis.bar(ind+offset, cat_data, self.width, bottom=bottom, color=colors, yerr=cat_err))
+
+                if stacked:
+                    j = j + 1
+                    for i in range(0, N):
+                        bottom[i] = bottom[i] + cat_data[i]
+                else:
+                    stacknum += 1
+                    if not groupstacks:
+                        offset = offset + self.width
+                    for i in range(0, N):
+                        self.categories[name]['bottom'][i] = bottom[i] + cat_data[i]
+
+        axis.set_ylabel(self.ylabel, fontsize=self.labelsize)
         if self.xlabel is not None:
-            axis.set_xlabel(self.xlabel, labelpad=20)
+            axis.set_xlabel(self.xlabel, labelpad=20, fontsize=self.labelsize)
         axis.set_title(self.title)
 
         if self.xticks is not None:
