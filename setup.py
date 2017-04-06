@@ -9,5 +9,5 @@ setup(name='pyplot_helper',
         url='https://github.com/ValiValpas/pyplot_helper',
         license="MIT",
         packages=['pyplot_helper'],
-        install_requires=['brewer2mpl', 'numpy', 'matplotlib']
+        install_requires=['palettable', 'numpy', 'matplotlib']
         )
