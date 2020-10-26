@@ -1,3 +1,5 @@
+**This repository will not be maintained as there are way more sophisticated solutions out there. Have a look at [seaborn](http://seaborn.pydata.org/) if you are interested in producing nice grouped bar charts.**
+
 # About
 
 Provides an easy-to-use interface to matplotlib's pyplot in order to generate fancy plots.
